@@ -5,6 +5,10 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import * as dotenv from 'dotenv';
+import { UserService } from 'src/user/services/user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Role } from 'src/user/entities/role.entity';
 
 // Load environment variables from .env file
 dotenv.config({
@@ -17,12 +21,13 @@ dotenv.config({
 @Module({
   imports: [
     PassportModule,
+    TypeOrmModule.forFeature([User, Role]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, UserService],
   controllers: [AuthController],
 })
 export class AuthModule {}

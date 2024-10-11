@@ -51,10 +51,10 @@ export class UserService {
     return { data, total };
   }
 
-  findByUsername(username: string): Promise<User> {
+  findByUsernameOrEmail(credential: string): Promise<User> {
     return this.userRepository.findOne({
-      where: { username },
-      relations: ['roles'],
+      where: [{ username: credential }, { email: credential }],
+      relations: ['role'],
     });
   }
 
