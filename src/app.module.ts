@@ -9,8 +9,10 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(AppDataSource.options), // Koneksi ke PostgreSQL
-    MongooseModule.forRoot(mongoUri), // Koneksi ke MongoDB
-    TrackingModule, AuthModule, UserModule,
+    MongooseModule.forRoot(mongoUri), 
+    TrackingModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
