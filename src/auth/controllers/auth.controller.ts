@@ -7,7 +7,7 @@ import {
   UseGuards,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -24,15 +24,15 @@ export class AuthController {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    const accessToken = await   this.authService.login(user);
+    const accessToken = await this.authService.login(user);
 
     return {
       status: 200,
       data: {
         user,
-        access_token : accessToken,
+        access_token: accessToken,
         message: 'Login successful',
-      }
-    }
+      },
+    };
   }
 }
