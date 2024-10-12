@@ -36,7 +36,7 @@ export class VehiclesService {
     const vehicle = await this.vehicleRepository.findOneBy({ id });
 
     if (!vehicle) {
-      throw new NotFoundException(`Vehicle with ID ${id} not found`);
+      throw new NotFoundException(`Vehicle not found`);
     }
 
     return vehicle;

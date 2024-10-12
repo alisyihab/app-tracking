@@ -6,11 +6,14 @@ import {
   Query,
   BadRequestException,
   UseGuards,
+  Param,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { RoleService } from '../services/role.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/utils/jwt.guard';
+import { UserDto } from '../dto/response/userDto';
 
 @Controller('users')
 export class UserController {
@@ -49,6 +52,29 @@ export class UserController {
       };
     } catch (error) {
       throw new BadRequestException('failed to add data');
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async show(@Param('id') id: string) {
+    try {
+      const user = await this.userService.findOneById(id);
+      const userDto = new UserDto();
+
+      userDto.id = user.id;
+      userDto.name = user.name;
+      userDto.username = user.username;
+      userDto.email = user.email;
+      userDto.photo = user.photo;
+      userDto.role = user.role.name;
+
+      return {
+        status: 200,
+        data: userDto,
+      };
+    } catch (error) {
+      throw new NotFoundException(`User not found`);
     }
   }
 
