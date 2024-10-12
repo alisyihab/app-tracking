@@ -7,7 +7,6 @@ import { PgTracking } from 'src/database/entities/trackings/tracking.entity';
 export class TrackingController {
   constructor(private readonly trackingService: TrackingService) {}
 
-  // Endpoint untuk membuat data tracking baru
   @Post()
   async create(
     @Body() createTrackingDto: CreateTrackingDto,
@@ -15,7 +14,6 @@ export class TrackingController {
     return this.trackingService.createTracking(createTrackingDto);
   }
 
-  // Endpoint untuk mengambil semua data tracking
   @Get()
   async findAll(): Promise<PgTracking[]> {
     return this.trackingService.getAllTrackings();

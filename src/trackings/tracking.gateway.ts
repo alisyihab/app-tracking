@@ -26,7 +26,7 @@ export class TrackingGateway
     console.log(`Client disconnected: ${client.id}`);
   }
 
-  // Method untuk menerima update dari client
+  // menerima update dari client
   @SubscribeMessage('createTracking')
   async handleTrackingUpdate(client: Socket, trackingDto: CreateTrackingDto) {
     const tracking = await this.trackingService.createTracking(trackingDto);
