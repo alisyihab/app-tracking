@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { Role } from 'src/user/entities/role.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Role } from 'src/users/entities/role.entity';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '../dto/create-user.dto';
 
@@ -44,8 +44,8 @@ export class UserService {
 
     // Pagination
     const data = await query
-      .take(limit)
       .skip((page - 1) * limit)
+      .take(limit)
       .getRawMany();
 
     return { data, total };

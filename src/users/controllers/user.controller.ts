@@ -5,10 +5,12 @@ import {
   Body,
   Query,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { RoleService } from '../services/role.service';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { JwtAuthGuard } from 'src/auth/utils/jwt.guard';
 
 @Controller('users')
 export class UserController {
@@ -17,6 +19,7 @@ export class UserController {
     private readonly roleService: RoleService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getUsers(
     @Query('page') page: number = 1,
@@ -35,6 +38,7 @@ export class UserController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('store')
   async create(@Body() createUserDto: CreateUserDto) {
     try {
@@ -48,11 +52,13 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('role')
   findAllRoles() {
     return this.roleService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('role')
   async createRole(@Body() roleData: any) {
     return this.roleService.create(roleData);

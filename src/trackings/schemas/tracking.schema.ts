@@ -2,7 +2,7 @@ import { Schema, Document } from 'mongoose';
 
 export interface MongoTracking extends Document {
   userId: string;
-  vehicleId: string;
+  vehicleId: number;
   latitude: string;
   longitude: string;
   timestamp: Date;
@@ -12,7 +12,7 @@ export interface MongoTracking extends Document {
 
 export const TrackingSchema = new Schema({
   userId: { type: String, required: true },
-  vehicleId: { type: String, required: true },
+  vehicleId: { type: Number, required: true },
   latitude: { type: String, required: true },
   longitude: { type: String, required: true },
   timestamp: { type: Date, required: true },

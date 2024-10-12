@@ -1,13 +1,12 @@
-import { IsUUID, IsNotEmpty, IsString } from 'class-validator';
+import { IsUUID, IsNotEmpty, IsString, IsInt } from 'class-validator';
 
 export class CreateTrackingDto {
   @IsUUID()
   @IsNotEmpty()
   userId: string;
 
-  @IsString()
-  @IsNotEmpty()
-  vehicleId: string;
+  @IsInt()
+  vehicleId: number;
 
   @IsString()
   latitude: string;
@@ -17,4 +16,5 @@ export class CreateTrackingDto {
 
   @IsNotEmpty()
   timestamp: Date;
+
 }

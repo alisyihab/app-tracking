@@ -10,7 +10,7 @@ export class PgTracking {
   userId: string;
 
   @Column()
-  vehicleId: string;
+  vehicleId: number;
 
   @Column({ type: 'varchar' })
   latitude: string;
