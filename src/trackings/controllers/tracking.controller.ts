@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, Param, Patch } from '@nestjs/common';
 import { TrackingService } from '../services/tracking.service';
-import { PgTracking } from '../entities/tracking.entity';
 import { CreateTrackingDto } from '../dto/create-tracking.dto';
+import { PgTracking } from 'src/database/entities/trackings/tracking.entity';
 
 @Controller('trackings')
 export class TrackingController {

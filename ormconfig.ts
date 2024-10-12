@@ -18,7 +18,7 @@ export const AppDataSource = new DataSource({
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/migrations/*{.ts,.js}'],
+  migrations: [__dirname + '/src/database/migrations/*{.ts,.js}'],
   synchronize: process.env.NODE_ENV !== 'production',
 });
 

@@ -7,9 +7,9 @@ import { JwtStrategy } from './utils/jwt.strategy';
 import * as dotenv from 'dotenv';
 import { UserService } from 'src/users/services/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Role } from 'src/users/entities/role.entity';
 import { UserModule } from 'src/users/user.module';
+import { User } from 'src/database/entities/users/user.entity';
+import { Role } from 'src/database/entities/roles/role.entity';
 
 // Load environment variables from .env file
 dotenv.config({

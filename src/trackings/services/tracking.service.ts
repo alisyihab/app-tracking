@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PgTracking } from '../entities/tracking.entity'; // PostgreSQL entity
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoTracking } from '../schemas/tracking.schema';
 import { v4 as uuidv4 } from 'uuid';
+import { PgTracking } from 'src/database/entities/trackings/tracking.entity';
 
 @Injectable()
 export class TrackingService {

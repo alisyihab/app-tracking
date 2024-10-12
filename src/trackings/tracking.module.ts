@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrackingService } from './services/tracking.service';
 import { TrackingController } from './controllers/tracking.controller';
-import { PgTracking } from './entities/tracking.entity'; // PostgreSQL entity
 import { TrackingSchema } from './schemas/tracking.schema'; // MongoDB schema
 import { TrackingGateway } from './tracking.gateway';
+import { PgTracking } from 'src/database/entities/trackings/tracking.entity';
 
 @Module({
   imports: [
