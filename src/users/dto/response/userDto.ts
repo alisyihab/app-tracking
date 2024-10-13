@@ -6,4 +6,5 @@ export class UserDto {
   email: string;
   photo: string | null;
   role: string;
+  created_at: Date;
 }

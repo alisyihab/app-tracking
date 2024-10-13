@@ -5,6 +5,7 @@ import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from 'src/database/entities/users/user.entity';
 import { Role } from 'src/database/entities/roles/role.entity';
+import { UserDto } from '../dto/response/userDto';
 
 @Injectable()
 export class UserService {
@@ -58,10 +59,9 @@ export class UserService {
     });
   }
 
-  async findOneById(id: string): Promise<User> {
+  async findOneById(id: string): Promise<UserDto> {
     const user = await this.userRepository.findOne({
       where: { id },
-      select: ['id', 'name', 'username', 'email', 'role'],
       relations: ['role'],
     });
 
@@ -69,10 +69,20 @@ export class UserService {
       throw new NotFoundException(`User not found`);
     }
 
-    return user;
+    const userDto = new UserDto();
+
+    userDto.id = user.id;
+    userDto.name = user.name;
+    userDto.username = user.username;
+    userDto.email = user.email;
+    userDto.photo = user.photo;
+    userDto.role = user.role.name;
+    userDto.created_at = user.created_at;
+
+    return userDto;
   }
 
-  async create(userData: CreateUserDto): Promise<User> {
+  async create(userData: CreateUserDto, photoUrl: string): Promise<User> {
     const user = new User();
     user.name = userData.name;
     user.email = userData.email;
@@ -89,6 +99,11 @@ export class UserService {
     }
 
     user.role = role;
+
+    // Jika photo URL tersedia, simpan ke entitas user
+    if (photoUrl) {
+      user.photo = photoUrl;
+    }
 
     return this.userRepository.save(user);
   }

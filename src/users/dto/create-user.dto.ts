@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString, IsEmail, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -18,5 +19,6 @@ export class CreateUserDto {
   password: string;
 
   @IsInt()
+  @Type(() => Number)
   roleId: number;
 }
