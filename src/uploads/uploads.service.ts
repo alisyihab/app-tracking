@@ -33,4 +33,12 @@ export class UploadService {
       throw new Error(`Failed to upload file: ${error.message}`);
     }
   }
+
+  async deleteFile(fileId: string): Promise<void> {
+    try {
+      await this.imageKit.deleteFile(fileId);
+    } catch (error) {
+      throw new Error(`Failed to delete file: ${error.message}`);
+    }
+  }
 }

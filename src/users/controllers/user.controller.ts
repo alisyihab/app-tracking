@@ -11,13 +11,15 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  Put,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { RoleService } from '../services/role.service';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDto } from '../dto/request/create-user.dto';
 import { JwtAuthGuard } from 'src/auth/utils/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from 'src/uploads/uploads.service';
+import { UpdateUserDto } from '../dto/request/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -54,29 +56,56 @@ export class UserController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-      let photoUrl = null;
+      let photoUrl = null,
+        photoId = null;
 
       // upload ke ImageKit
       if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+          throw new BadRequestException('File size exceeds 5 MB');
+        }
+
         const uploadResult = await this.uploadService.uploadFile(file);
         photoUrl = uploadResult.url;
+        photoId = uploadResult.fileId;
       }
 
       // save to db
-      await this.userService.create(createUserDto, photoUrl);
+      await this.userService.create(createUserDto, photoUrl, photoId);
 
       return {
         status: 201,
         message: `User ${createUserDto.name} berhasil ditambahkan`,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new BadRequestException('Failed to add data');
     }
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('show/:id')
+  @Put('update/:id')
+  @UseInterceptors(FileInterceptor('photo'))
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    try {
+      const updateUser = await this.userService.updateUser(id, updateUserDto, file);
+
+      return {
+        status: 200,
+        message: updateUser,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Failed to update data');
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('edit/:id')
   async show(@Param('id') id: string) {
     try {
       const user = await this.userService.findOneById(id);
@@ -107,6 +136,8 @@ export class UserController {
   async profile(@Req() req: any) {
     const id = req.user.id;
     const user = await this.userService.findOneById(id);
+
+    delete user.roleId;
 
     return {
       status: 200,

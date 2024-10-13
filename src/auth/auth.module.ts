@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from 'src/users/user.module';
 import { User } from 'src/database/entities/users/user.entity';
 import { Role } from 'src/database/entities/roles/role.entity';
+import { UploadModule } from 'src/uploads/upload.module';
 
 // Load environment variables from .env file
 dotenv.config({
@@ -27,7 +28,8 @@ dotenv.config({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
-    UserModule
+    UserModule,
+    UploadModule
   ],
   providers: [AuthService, JwtStrategy, UserService],
   controllers: [AuthController],
