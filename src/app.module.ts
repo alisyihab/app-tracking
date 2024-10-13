@@ -6,6 +6,7 @@ import { AppDataSource, mongoUri } from 'ormconfig';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
+import { UploadModule } from './uploads/upload.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { VehiclesModule } from './vehicles/vehicles.module';
     AuthModule,
     UserModule,
     VehiclesModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
